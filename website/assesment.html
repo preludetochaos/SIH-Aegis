@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personnel Stress & Welfare Assessment (8 Parameters) | SIH 2026</title>
+  <link rel="stylesheet" href="style_1.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="nav-brand">
+        <span class="brand-badge">SIH 2026</span>
+        <span>Diagnostic Assessment</span>
+      </div>
+      <div>
+        <a href="index.html" class="btn-secondary">
+          ← Back to Front Page
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-bottom: 60px;">
+    
+    <div class="assessment-header">
+      <div class="hero-tag">
+        <span>📋 Personnel Evaluation Protocol</span>
+      </div>
+      <h1 style="font-size: 2.3rem; color: #ffffff; margin-bottom: 8px; letter-spacing: -0.02em;">
+        Personnel Stress & Welfare Assessment
+      </h1>
+      <p style="color: var(--text-muted); font-size: 1rem; max-width: 680px; margin: 0 auto;">
+        Please select your response for each of the 8 parameters on a scale of <strong>1 to 5</strong>. The formatted <em>"Question. Answer."</em> output is generated in real-time below.
+      </p>
+    </div>
+
+    <!-- 8 Questions Assessment Form -->
+    <form id="assessmentForm">
+      <div class="assessment-list">
+
+        <!-- Question 1: workload -->
+        <div class="q-card" id="card_workload">
+          <div class="q-top-row">
+            <div class="q-title-text">
+              1. How would you rate your current workload?
+            </div>
+            <span class="variable-badge">variable: workload</span>
+          </div>
+          <div class="scale-container">
+            <div class="scale-options">
+              <input type="radio" id="wl_1" name="workload" value="1" class="scale-input" checked>
+              <label for="wl_1" class="scale-btn-label">
+                <span class="scale-number">1</span>
+                <span class="scale-desc">Very Light</span>
+              </label>
+
+              <input type="radio" id="wl_2" name="workload" value="2" class="scale-input">
+              <label for="wl_2" class="scale-btn-label">
+                <span class="scale-number">2</span>
+                <span class="scale-desc">Light</span>
+              </label>
+
+              <input type="radio" id="wl_3" name="workload" value="3" class="scale-input">
+              <label for="wl_3" class="scale-btn-label">
+                <span class="scale-number">3</span>
+                <span class="scale-desc">Moderate</span>
+              </label>
+
+              <input type="radio" id="wl_4" name="workload" value="4" class="scale-input">
+              <label for="wl_4" class="scale-btn-label">
+                <span class="scale-number">4</span>
+                <span class="scale-desc">Heavy</span>
+              </label>
+
+              <input type="radio" id="wl_5" name="workload" value="5" class="scale-input">
+              <label for="wl_5" class="scale-btn-label">
+                <span class="scale-number">5</span>
+                <span class="scale-desc">Intense</span>
+              </label>
+            </div>
+          </div>
+          <div class="qa-format-display" id="display_workload">
+            <strong>Question:</strong> How would you rate your current workload?<br>
+            <strong>Answer:</strong> 1
+          </div>
+        </div>
+
+        <!-- Question 2: exhaustion -->
+        <div class="q-card" id="card_exhaustion">
+          <div class="q-top-row">
+            <div class="q-title-text">
+              2. How often have you felt exhausted recently?
+            </div>
+            <span class="variable-badge">variable: exhaustion</span>
+          </div>
+          <div class="scale-container">
+            <div class="scale-options">
+              <input type="radio" id="ex_1" name="exhaustion" value="1" class="scale-input" checked>
+              <label for="ex_1" class="scale-btn-label">
+                <span class="scale-number">1</span>
+                <span class="scale-desc">Never</span>
+              </label>
+
+              <input type="radio" id="ex_2" name="exhaustion" value="2" class="scale-input">
+              <label for="ex_2" class="scale-btn-label">
+                <span class="scale-number">2</span>
+                <span class="scale-desc">Rarely</span>
+              </label>
+
+              <input type="radio" id="ex_3" name="exhaustion" value="3" class="scale-input">
+              <label for="ex_3" class="scale-btn-label">
+                <span class="scale-number">3</span>
+                <span class="scale-desc">Sometimes</span>
+              </label>
+
+              <input type="radio" id="ex_4" name="exhaustion" value="4" class="scale-input">
+              <label for="ex_4" class="scale-btn-label">
+                <span class="scale-number">4</span>
+                <span class="scale-desc">Often</span>
+              </label>
+
+              <input type="radio" id="ex_5" name="exhaustion" value="5" class="scale-input">
+              <label for="ex_5" class="scale-btn-label">
+                <span class="scale-number">5</span>
+                <span class="scale-desc">Always</span>
+              </label>
+            </div>
+          </div>
+          <div class="qa-format-display" id="display_exhaustion">
+            <strong>Question:</strong> How often have you felt exhausted recently?<br>
+            <strong>Answer:</strong> 1
+          </div>
+        </div>
+
+        <!-- Question 3: physical_tension -->
+        <div class="q-card" id="card_physical_tension">
+          <div class="q-top-row">
+            <div class="q-title-text">
+              3. How often have you experienced physical tension, such as headaches or tight shoulders?
+            </div>
+            <span class="variable-badge">variable: physical_tension</span>
+          </div>
+          <div class="scale-container">
+            <div class="scale-options">
+              <input type="radio" id="pt_1" name="physical_tension" value="1" class="scale-input" checked>
+              <label for="pt_1" class="scale-btn-label">
+                <span class="scale-number">1</span>
+                <span class="scale-desc">Never</span>
+              </label>
+
+              <input type="radio" id="pt_2" name="physical_tension" value="2" class="scale-input">
+              <label for="pt_2" class="scale-btn-label">
+                <span class="scale-number">2</span>
+                <span class="scale-desc">Rarely</span>
+              </label>
+
+              <input type="radio" id="pt_3" name="physical_tension" value="3" class="scale-input">
+              <label for="pt_3" class="scale-btn-label">
+                <span class="scale-number">3</span>
+                <span class="scale-desc">Sometimes</span>
+              </label>
+
+              <input type="radio" id="pt_4" name="physical_tension" value="4" class="scale-input">
+              <label for="pt_4" class="scale-btn-label">
+                <span class="scale-number">4</span>
+                <span class="scale-desc">Often</span>
+              </label>
+
+              <input type="radio" id="pt_5" name="physical_tension" value="5" class="scale-input">
+              <label for="pt_5" class="scale-btn-label">
+                <span class="scale-number">5</span>
+                <span class="scale-desc">Constantly</span>
+              </label>
+            </div>
+          </div>
+          <div class="qa-format-display" id="display_physical_tension">
+            <strong>Question:</strong> How often have you experienced physical tension, such as headaches or tight shoulders?<br>
+            <strong>Answer:</strong> 1
+          </div>
+        </div>
+
+        <!-- Question 4: decision_difficulty -->
+        <div class="q-card" id="card_decision_difficulty">
+          <div class="q-top-row">
+            <div class="q-title-text">
+              4. How often have you found it difficult to make decisions recently?
+            </div>
+            <span class="variable-badge">variable: decision_difficulty</span>
+          </div>
+          <div class="scale-container">
+            <div class="scale-options">
+              <input type="radio" id="dd_1" name="decision_difficulty" value="1" class="scale-input" checked>
+              <label for="dd_1" class="scale-btn-label">
+                <span class="scale-number">1</span>
+                <span class="scale-desc">Never</span>
+              </label>
+
+              <input type="radio" id="dd_2" name="decision_difficulty" value="2" class="scale-input">
+              <label for="dd_2" class="scale-btn-label">
+                <span class="scale-number">2</span>
+                <span class="scale-desc">Rarely</span>
+              </label>
+
+              <input type="radio" id="dd_3" name="decision_difficulty" value="3" class="scale-input">
+              <label for="dd_3" class="scale-btn-label">
+                <span class="scale-number">3</span>
+                <span class="scale-desc">Sometimes</span>
+              </label>
+
+              <input type="radio" id="dd_4" name="decision_difficulty" value="4" class="scale-input">
+              <label for="dd_4" class="scale-btn-label">
+                <span class="scale-number">4</span>
+                <span class="scale-desc">Often</span>
+              </label>
+
+              <input type="radio" id="dd_5" name="decision_difficulty" value="5" class="scale-input">
+              <label for="dd_5" class="scale-btn-label">
+                <span class="scale-number">5</span>
+                <span class="scale-desc">Always</span>
+              </label>
+            </div>
+          </div>
+          <div class="qa-format-display" id="display_decision_difficulty">
+            <strong>Question:</strong> How often have you found it difficult to make decisions recently?<br>
+            <strong>Answer:</strong> 1
+          </div>
+        </div>
+
+        <!-- Question 5: forgetfulness -->
+        <div class="q-card" id="card_forgetfulness">
+          <div class="q-top-row">
+            <div class="q-title-text">
+              5. How often have you experienced difficulty remembering things?
+            </div>
+            <span class="variable-badge">variable: forgetfulness</span>
+          </div>
+          <div class="scale-container">
+            <div class="scale-options">
+              <input type="radio" id="fg_1" name="forgetfulness" value="1" class="scale-input" checked>
+              <label for="fg_1" class="scale-btn-label">
+                <span class="scale-number">1</span>
+                <span class="scale-desc">Never</span>
+              </label>
+
+              <input type="radio" id="fg_2" name="forgetfulness" value="2" class="scale-input">
+              <label for="fg_2" class="scale-btn-label">
+                <span class="scale-number">2</span>
+                <span class="scale-desc">Rarely</span>
+              </label>
+
+              <input type="radio" id="fg_3" name="forgetfulness" value="3" class="scale-input">
+              <label for="fg_3" class="scale-btn-label">
+                <span class="scale-number">3</span>
+                <span class="scale-desc">Sometimes</span>
+              </label>
+
+              <input type="radio" id="fg_4" name="forgetfulness" value="4" class="scale-input">
+              <label for="fg_4" class="scale-btn-label">
+                <span class="scale-number">4</span>
+                <span class="scale-desc">Often</span>
+              </label>
+
+              <input type="radio" id="fg_5" name="forgetfulness" value="5" class="scale-input">
+              <label for="fg_5" class="scale-btn-label">
+                <span class="scale-number">5</span>
+                <span class="scale-desc">Frequently</span>
+              </label>
+            </div>
+          </div>
+          <div class="qa-format-display" id="display_forgetfulness">
+            <strong>Question:</strong> How often have you experienced difficulty remembering things?<br>
+            <strong>Answer:</strong> 1
+          </div>
+        </div>
+
+        <!-- Question 6: irritability -->
+        <div class="q-card" id="card_irritability">
+          <div class="q-top-row">
+            <div class="q-title-text">
+              6. How often have you felt irritable, anxious, or angry over minor inconveniences?
+            </div>
+            <span class="variable-badge">variable: irritability</span>
+          </div>
+          <div class="scale-container">
+            <div class="scale-options">
+              <input type="radio" id="ir_1" name="irritability" value="1" class="scale-input" checked>
+              <label for="ir_1" class="scale-btn-label">
+                <span class="scale-number">1</span>
+                <span class="scale-desc">Never</span>
+              </label>
+
+              <input type="radio" id="ir_2" name="irritability" value="2" class="scale-input">
+              <label for="ir_2" class="scale-btn-label">
+                <span class="scale-number">2</span>
+                <span class="scale-desc">Rarely</span>
+              </label>
+
+              <input type="radio" id="ir_3" name="irritability" value="3" class="scale-input">
+              <label for="ir_3" class="scale-btn-label">
+                <span class="scale-number">3</span>
+                <span class="scale-desc">Sometimes</span>
+              </label>
+
+              <input type="radio" id="ir_4" name="irritability" value="4" class="scale-input">
+              <label for="ir_4" class="scale-btn-label">
+                <span class="scale-number">4</span>
+                <span class="scale-desc">Often</span>
+              </label>
+
+              <input type="radio" id="ir_5" name="irritability" value="5" class="scale-input">
+              <label for="ir_5" class="scale-btn-label">
+                <span class="scale-number">5</span>
+                <span class="scale-desc">Constantly</span>
+              </label>
+            </div>
+          </div>
+          <div class="qa-format-display" id="display_irritability">
+            <strong>Question:</strong> How often have you felt irritable, anxious, or angry over minor inconveniences?<br>
+            <strong>Answer:</strong> 1
+          </div>
+        </div>
+
+        <!-- Question 7: restlessness -->
+        <div class="q-card" id="card_restlessness">
+          <div class="q-top-row">
+            <div class="q-title-text">
+              7. How often have you felt constantly on edge or unable to relax?
+            </div>
+            <span class="variable-badge">variable: restlessness</span>
+          </div>
+          <div class="scale-container">
+            <div class="scale-options">
+              <input type="radio" id="rs_1" name="restlessness" value="1" class="scale-input" checked>
+              <label for="rs_1" class="scale-btn-label">
+                <span class="scale-number">1</span>
+                <span class="scale-desc">Never</span>
+              </label>
+
+              <input type="radio" id="rs_2" name="restlessness" value="2" class="scale-input">
+              <label for="rs_2" class="scale-btn-label">
+                <span class="scale-number">2</span>
+                <span class="scale-desc">Rarely</span>
+              </label>
+
+              <input type="radio" id="rs_3" name="restlessness" value="3" class="scale-input">
+              <label for="rs_3" class="scale-btn-label">
+                <span class="scale-number">3</span>
+                <span class="scale-desc">Sometimes</span>
+              </label>
+
+              <input type="radio" id="rs_4" name="restlessness" value="4" class="scale-input">
+              <label for="rs_4" class="scale-btn-label">
+                <span class="scale-number">4</span>
+                <span class="scale-desc">Often</span>
+              </label>
+
+              <input type="radio" id="rs_5" name="restlessness" value="5" class="scale-input">
+              <label for="rs_5" class="scale-btn-label">
+                <span class="scale-number">5</span>
+                <span class="scale-desc">Always</span>
+              </label>
+            </div>
+          </div>
+          <div class="qa-format-display" id="display_restlessness">
+            <strong>Question:</strong> How often have you felt constantly on edge or unable to relax?<br>
+            <strong>Answer:</strong> 1
+          </div>
+        </div>
+
+        <!-- Question 8: sleep_quality -->
+        <div class="q-card" id="card_sleep_quality">
+          <div class="q-top-row">
+            <div class="q-title-text">
+              8. How would you rate your sleep quality recently?
+            </div>
+            <span class="variable-badge">variable: sleep_quality</span>
+          </div>
+          <div class="scale-container">
+            <div class="scale-options">
+              <input type="radio" id="sq_1" name="sleep_quality" value="1" class="scale-input" checked>
+              <label for="sq_1" class="scale-btn-label">
+                <span class="scale-number">1</span>
+                <span class="scale-desc">Very Good</span>
+              </label>
+
+              <input type="radio" id="sq_2" name="sleep_quality" value="2" class="scale-input">
+              <label for="sq_2" class="scale-btn-label">
+                <span class="scale-number">2</span>
+                <span class="scale-desc">Good</span>
+              </label>
+
+              <input type="radio" id="sq_3" name="sleep_quality" value="3" class="scale-input">
+              <label for="sq_3" class="scale-btn-label">
+                <span class="scale-number">3</span>
+                <span class="scale-desc">Fair</span>
+              </label>
+
+              <input type="radio" id="sq_4" name="sleep_quality" value="4" class="scale-input">
+              <label for="sq_4" class="scale-btn-label">
+                <span class="scale-number">4</span>
+                <span class="scale-desc">Poor</span>
+              </label>
+
+              <input type="radio" id="sq_5" name="sleep_quality" value="5" class="scale-input">
+              <label for="sq_5" class="scale-btn-label">
+                <span class="scale-number">5</span>
+                <span class="scale-desc">Very Poor</span>
+              </label>
+            </div>
+          </div>
+          <div class="qa-format-display" id="display_sleep_quality">
+            <strong>Question:</strong> How would you rate your sleep quality recently?<br>
+            <strong>Answer:</strong> 1
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+    <!-- Formatted "Question. Answer." Output Summary Container -->
+    <div class="summary-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+        <div>
+          <h3>📄 Formatted Assessment Output</h3>
+          <p style="color: var(--text-muted); font-size: 0.88rem;">Live generated in exact <code>Question.\nAnswer.</code> structure (Values 1–5)</p>
+        </div>
+        <button id="copySummaryBtn" class="btn-primary-action" style="padding: 10px 20px; font-size: 0.88rem;">
+          📋 Copy Formatted Text
+        </button>
+      </div>
+
+      <pre class="formatted-output-pre" id="formattedSummaryOutput"></pre>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
+        <div style="font-size: 0.95rem; color: #fff;">
+          <strong>Calculated Stress Level:</strong> <span id="stressScorePercent" style="color: #10b981; font-weight: 800; font-size: 1.15rem;">0%</span> (Score: <span id="rawScore">8</span> / 40)
+        </div>
+        <a href="index.html" class="btn-secondary">
+          ← Return to Front Page
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast">
+    <span>✅</span>
+    <span id="toastMsg">Formatted output copied to clipboard!</span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 Smart India Hackathon Presentation Portal • AI Personnel Stress & Welfare Monitoring System</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <button onclick="assessRisk()">Assess Risk</button>
+
+    <div id="result"></div>
+
+    <script src="dataextractor.js"></script>
+</body>
+</html>
