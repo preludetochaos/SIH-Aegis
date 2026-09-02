@@ -1,33 +1,48 @@
 // ==========================================
-// AEGIS - Personnel Stress Assessment
+// AEGIS - Personnel Stress & Welfare Assessment
 // ==========================================
 
-// Get the selected answers from the radio buttons
+const questions = [
+    ["How would you rate your current workload?", "workload"],
+    ["How often have you felt exhausted recently?", "exhaustion"],
+    ["How often have you experienced physical tension, such as headaches or tight shoulders?", "physical_tension"],
+    ["How often have you found it difficult to make decisions recently?", "decision_difficulty"],
+    ["How often have you experienced difficulty remembering things?", "forgetfulness"],
+    ["How often have you felt irritable, anxious, or angry over minor inconveniences?", "irritability"],
+    ["How often have you felt constantly on edge or unable to relax?", "restlessness"],
+    ["How would you rate your sleep quality recently?", "sleep_quality"]
+];
+
+
+// Get selected answers
 function getAnswers() {
 
-    const answers = {
-        workload: Number(document.querySelector('input[name="workload"]:checked').value),
-        exhaustion: Number(document.querySelector('input[name="exhaustion"]:checked').value),
-        physical_tension: Number(document.querySelector('input[name="physical_tension"]:checked').value),
-        decision_difficulty: Number(document.querySelector('input[name="decision_difficulty"]:checked').value),
-        forgetfulness: Number(document.querySelector('input[name="forgetfulness"]:checked').value),
-        irritability: Number(document.querySelector('input[name="irritability"]:checked').value),
-        restlessness: Number(document.querySelector('input[name="restlessness"]:checked').value),
-        sleep_quality: Number(document.querySelector('input[name="sleep_quality"]:checked').value)
-    };
+    const answers = {};
+
+    questions.forEach(([question, variable]) => {
+
+        const selected = document.querySelector(
+            `input[name="${variable}"]:checked`
+        );
+
+        if (!selected) {
+            throw new Error(`No answer selected for: ${variable}`);
+        }
+
+        answers[variable] = Number(selected.value);
+    });
 
     return answers;
 }
 
 
-// Calculate the stress score
+// Calculate risk score
 function calculateRisk(answers) {
 
-    // In the HTML:
-    // 1 = Very Good sleep
-    // 5 = Very Poor sleep
-    // Therefore, higher value = higher risk
-    const sleepRisk = answers.sleep_quality;
+    // Sleep:
+    // 1 = Very Good
+    // 5 = Very Poor
+    // Therefore higher value = higher risk
 
     const total =
         answers.workload +
@@ -37,12 +52,16 @@ function calculateRisk(answers) {
         answers.forgetfulness +
         answers.irritability +
         answers.restlessness +
-        sleepRisk;
+        answers.sleep_quality;
 
-    // Minimum total = 8
-    // Maximum total = 40
-    // Convert to 0–100%
-    const score = ((total - 8) / 32) * 100;
+    // 8 questions × maximum score 5 = 40
+    // Example:
+    // All 1s = 8/40 = 20%
+    // All 3s = 24/40 = 60%
+    // All 4s = 32/40 = 80%
+    // All 5s = 40/40 = 100%
+
+    const score = Math.round((total / 40) * 100);
 
     let level;
 
@@ -58,56 +77,139 @@ function calculateRisk(answers) {
 
     return {
         total: total,
-        score: Math.round(score),
+        score: score,
         level: level
     };
 }
 
 
-// Update the existing score section
+// Generate assessment summary
+function generateSummary(answers) {
+
+    return questions.map(([question, variable], index) => {
+
+        return `${index + 1}. ${question}\nAnswer: ${answers[variable]}`;
+
+    }).join("\n\n");
+}
+
+
+// Run assessment
 function assessRisk() {
 
-    const answers = getAnswers();
-    const result = calculateRisk(answers);
+    try {
 
-    console.log("Answers:", answers);
-    console.log("Raw Score:", result.total + " / 40");
-    console.log("Risk Percentage:", result.score + "%");
-    console.log("Risk Level:", result.level);
+        const answers = getAnswers();
+        const result = calculateRisk(answers);
 
-    // Update existing percentage
-    document.getElementById("stressScorePercent").textContent =
-        result.score + "%";
+        // Update existing percentage
+        const percent = document.getElementById("stressScorePercent");
 
-    // Update existing raw score
-    document.getElementById("rawScore").textContent =
-        result.total;
+        if (percent) {
+            percent.textContent = result.score + "%";
+        }
 
-    // Update the formatted output area
-    const formattedOutput =
-        "1. How would you rate your current workload?\nAnswer: " + answers.workload +
-        "\n\n" +
+        // Update existing raw score
+        const rawScore = document.getElementById("rawScore");
 
-        "2. How often have you felt exhausted recently?\nAnswer: " + answers.exhaustion +
-        "\n\n" +
+        if (rawScore) {
+            rawScore.textContent = result.total;
+        }
 
-        "3. How often have you experienced physical tension, such as headaches or tight shoulders?\nAnswer: " + answers.physical_tension +
-        "\n\n" +
+        // Update existing summary
+        const summary = document.getElementById("formattedSummaryOutput");
 
-        "4. How often have you found it difficult to make decisions recently?\nAnswer: " + answers.decision_difficulty +
-        "\n\n" +
+        if (summary) {
+            summary.textContent = generateSummary(answers);
+        }
 
-        "5. How often have you experienced difficulty remembering things?\nAnswer: " + answers.forgetfulness +
-        "\n\n" +
+        console.log("Assessment:", answers);
+        console.log("Score:", result.total + "/40");
+        console.log("Risk:", result.score + "%");
+        console.log("Level:", result.level);
 
-        "6. How often have you felt irritable, anxious, or angry over minor inconveniences?\nAnswer: " + answers.irritability +
-        "\n\n" +
+    }
 
-        "7. How often have you felt constantly on edge or unable to relax?\nAnswer: " + answers.restlessness +
-        "\n\n" +
+    catch (error) {
 
-        "8. How would you rate your sleep quality recently?\nAnswer: " + answers.sleep_quality;
+        console.error(error);
 
-    document.getElementById("formattedSummaryOutput").textContent =
-        formattedOutput;
+        alert(
+            "Please select an answer for every question before assessing."
+        );
+    }
 }
+
+
+// Remove unnecessary developer/debug elements
+document.addEventListener("DOMContentLoaded", () => {
+
+    document.querySelectorAll(".variable-badge").forEach(element => {
+        element.remove();
+    });
+
+    document.querySelectorAll(".qa-format-display").forEach(element => {
+        element.remove();
+    });
+
+});
+
+
+// Copy assessment summary
+document.addEventListener("DOMContentLoaded", () => {
+
+    const copyButton = document.getElementById("copySummaryBtn");
+
+    if (!copyButton) {
+        return;
+    }
+
+    copyButton.addEventListener("click", async () => {
+
+        const summary = document.getElementById(
+            "formattedSummaryOutput"
+        );
+
+        if (!summary || !summary.textContent.trim()) {
+
+            alert("Please run the assessment first.");
+
+            return;
+        }
+
+        try {
+
+            await navigator.clipboard.writeText(
+                summary.textContent
+            );
+
+            const toast = document.getElementById("toast");
+            const toastMsg = document.getElementById("toastMsg");
+
+            if (toastMsg) {
+                toastMsg.textContent =
+                    "Assessment summary copied to clipboard!";
+            }
+
+            if (toast) {
+
+                toast.classList.add("show");
+
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 2500);
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error("Clipboard error:", error);
+
+            alert("Unable to copy the summary.");
+        }
+
+    });
+
+});
