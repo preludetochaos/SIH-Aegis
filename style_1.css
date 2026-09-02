@@ -1,0 +1,604 @@
+/* ==========================================================================
+   SIH 2026 - Ultra-Modern CSS Styling for Diagnostic Assessment & Portal
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-glow: rgba(79, 70, 229, 0.45);
+  --primary-light: #818cf8;
+  
+  --accent: #06b6d4;
+  --accent-glow: rgba(6, 182, 212, 0.35);
+
+  --lvl-1: #10b981; /* Low / Restful */
+  --lvl-2: #06b6d4; /* Mild */
+  --lvl-3: #f59e0b; /* Moderate */
+  --lvl-4: #f97316; /* High */
+  --lvl-5: #ef4444; /* Severe / Extreme */
+
+  --bg-dark: #080d1a;
+  --bg-card: rgba(15, 23, 42, 0.78);
+  --bg-card-hover: rgba(22, 33, 58, 0.9);
+  --bg-terminal: rgba(10, 15, 29, 0.95);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(99, 102, 241, 0.55);
+  --border-accent: rgba(6, 182, 212, 0.4);
+
+  --text-main: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-xl: 20px;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-pill: 9999px;
+
+  --transition-fast: 0.18s ease;
+  --transition-smooth: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.6), 0 0 1px 1px var(--border-subtle);
+}
+
+/* Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: 
+    radial-gradient(ellipse at 15% 10%, rgba(79, 70, 229, 0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 90%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(15, 23, 42, 0.8) 0%, transparent 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ==========================================================================
+   Navigation Bar
+   ========================================================================== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8, 13, 26, 0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 14px 0;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+.brand-badge {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.35);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.88rem;
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Assessment Page Header
+   ========================================================================== */
+.assessment-header {
+  padding: 44px 0 28px;
+  text-align: center;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(79, 70, 229, 0.12);
+  border: 1px solid rgba(79, 70, 229, 0.35);
+  border-radius: var(--radius-pill);
+  color: #a5b4fc;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  box-shadow: 0 0 15px rgba(79, 70, 229, 0.2);
+}
+
+.page-title {
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 80%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Question Cards (Glassmorphism & Micro-Interactions)
+   ========================================================================== */
+.assessment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-bottom: 44px;
+}
+
+.q-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 26px 30px;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.q-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--primary), var(--accent));
+  opacity: 0.4;
+  transition: opacity var(--transition-fast);
+}
+
+.q-card:hover {
+  transform: translateY(-3px);
+  background: var(--bg-card-hover);
+  border-color: var(--border-focus);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(79, 70, 229, 0.15);
+}
+
+.q-card:hover::before {
+  opacity: 1;
+}
+
+.q-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.q-title-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex: 1;
+}
+
+.q-badge-num {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  box-shadow: 0 2px 8px var(--primary-glow);
+}
+
+.q-title-text {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.45;
+}
+
+.variable-badge {
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: #38bdf8;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   1 to 5 Numeric Rating Scale Buttons (Capsules)
+   ========================================================================== */
+.scale-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 18px 0 14px;
+}
+
+.scale-options {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.scale-btn-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 10px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  user-select: none;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.scale-number {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.1;
+  margin-bottom: 4px;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.scale-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: color var(--transition-fast);
+}
+
+.scale-input {
+  display: none;
+}
+
+/* Hover on scale button */
+.scale-btn-label:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+}
+
+.scale-btn-label:hover .scale-number {
+  transform: scale(1.1);
+  color: #ffffff;
+}
+
+/* Checked States for Scale 1 to 5 (Vibrant Glowing Colors) */
+.scale-input:checked + .scale-btn-label {
+  background: linear-gradient(135deg, var(--primary) 0%, #6366f1 100%);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 22px var(--primary-glow);
+  transform: translateY(-2px);
+}
+
+.scale-input:checked + .scale-btn-label .scale-number {
+  color: #ffffff;
+  transform: scale(1.15);
+}
+
+.scale-input:checked + .scale-btn-label .scale-desc {
+  color: #e0e7ff;
+  font-weight: 700;
+}
+
+/* Custom Level Colors when Checked */
+.scale-options input[value="1"]:checked + .scale-btn-label {
+  background: linear-gradient(135deg, #059669, #10b981);
+  box-shadow: 0 8px 22px rgba(16, 185, 129, 0.45);
+}
+
+.scale-options input[value="2"]:checked + .scale-btn-label {
+  background: linear-gradient(135deg, #0284c7, #06b6d4);
+  box-shadow: 0 8px 22px rgba(6, 182, 212, 0.45);
+}
+
+.scale-options input[value="3"]:checked + .scale-btn-label {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  box-shadow: 0 8px 22px rgba(245, 158, 11, 0.45);
+}
+
+.scale-options input[value="4"]:checked + .scale-btn-label {
+  background: linear-gradient(135deg, #ea580c, #f97316);
+  box-shadow: 0 8px 22px rgba(249, 115, 22, 0.45);
+}
+
+.scale-options input[value="5"]:checked + .scale-btn-label {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  box-shadow: 0 8px 22px rgba(239, 68, 68, 0.45);
+}
+
+/* ==========================================================================
+   Question. Answer. Live Display Box on Card
+   ========================================================================== */
+.qa-format-display {
+  margin-top: 14px;
+  padding: 12px 18px;
+  background: rgba(9, 14, 26, 0.85);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  line-height: 1.6;
+  border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.qa-format-display strong {
+  color: #ffffff;
+}
+
+.qa-val-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 1px 8px;
+  border-radius: 6px;
+  margin-left: 4px;
+}
+
+/* ==========================================================================
+   Summary & Live Output Container
+   ========================================================================== */
+.summary-box {
+  background: var(--bg-card);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--border-focus);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  margin-bottom: 50px;
+  box-shadow: 0 15px 45px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(79, 70, 229, 0.2);
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.summary-title h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.summary-title p {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.btn-primary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--primary), #6366f1);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 20px var(--primary-glow);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+}
+
+.btn-primary-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(79, 70, 229, 0.6);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.formatted-output-pre {
+  background: var(--bg-terminal);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  color: #cbd5e1;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  margin: 16px 0;
+  max-height: 360px;
+  overflow-y: auto;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.summary-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.stress-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.score-badge {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(16, 185, 129, 0.5);
+  color: #ffffff;
+  padding: 12px 22px;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all var(--transition-smooth);
+  z-index: 1000;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border-subtle);
+  padding: 24px 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  background: rgba(8, 13, 26, 0.7);
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2.1rem;
+  }
+  .q-card {
+    padding: 20px;
+  }
+  .scale-options {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .scale-btn-label {
+    padding: 10px 4px;
+  }
+  .scale-number {
+    font-size: 1.15rem;
+  }
+  .scale-desc {
+    display: none;
+  }
+  .q-top-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
