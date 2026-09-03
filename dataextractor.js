@@ -5,6 +5,19 @@
 if (localStorage.getItem("aegisLoggedIn") !== "true") {
     window.location.href = "login.html";
 }
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+
+        localStorage.removeItem("aegisLoggedIn");
+        localStorage.removeItem("aegisPersonnelId");
+        localStorage.removeItem("aegisUserName");
+        localStorage.removeItem("aegisRole");
+
+        window.location.href = "index.html";
+    });
+}
 const questions = [
     ["How would you rate your current workload?", "workload"],
     ["How often have you felt exhausted recently?", "exhaustion"],
