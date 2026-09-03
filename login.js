@@ -1,25 +1,5 @@
 // ==========================================
 // AEGIS - Personnel Login
-// ==========================================
-if (localStorage.getItem("aegisLoggedIn") !== "true") {
-    window.location.href = "login.html";
-}
-const loginForm = document.getElementById("loginForm");
-const errorMessage = document.getElementById("errorMessage");
-
-const logoutBtn = document.getElementById("logoutBtn");
-
-if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-
-        localStorage.removeItem("aegisLoggedIn");
-        localStorage.removeItem("aegisPersonnelId");
-        localStorage.removeItem("aegisUserName");
-        localStorage.removeItem("aegisRole");
-
-        window.location.href = "index.html";
-    });
-}
 // ------------------------------------------
 // Convert CSV text into user objects
 // ------------------------------------------
