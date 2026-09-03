@@ -462,7 +462,7 @@ document.addEventListener(
 
 
         // Display AI information
-        displayAIInformation();
+        
 
 
         // Logout button
