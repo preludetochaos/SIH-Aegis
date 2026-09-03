@@ -1,7 +1,10 @@
 // ==========================================
 // AEGIS - Personnel Stress & Welfare Assessment
 // ==========================================
-
+// Protect assessment page
+if (localStorage.getItem("aegisLoggedIn") !== "true") {
+    window.location.href = "login.html";
+}
 const questions = [
     ["How would you rate your current workload?", "workload"],
     ["How often have you felt exhausted recently?", "exhaustion"],
