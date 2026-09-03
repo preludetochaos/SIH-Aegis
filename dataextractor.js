@@ -1,23 +1,7 @@
 // ==========================================
 // AEGIS - Personnel Stress & Welfare Assessment
 // ==========================================
-// Protect assessment page
-if (localStorage.getItem("aegisLoggedIn") !== "true") {
-    window.location.href = "login.html";
-}
-const logoutBtn = document.getElementById("logoutBtn");
 
-if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-
-        localStorage.removeItem("aegisLoggedIn");
-        localStorage.removeItem("aegisPersonnelId");
-        localStorage.removeItem("aegisUserName");
-        localStorage.removeItem("aegisRole");
-
-        window.location.href = "index.html";
-    });
-}
 const questions = [
     ["How would you rate your current workload?", "workload"],
     ["How often have you felt exhausted recently?", "exhaustion"],
@@ -30,7 +14,10 @@ const questions = [
 ];
 
 
-// Get selected answers
+// ==========================================
+// GET QUESTIONNAIRE ANSWERS
+// ==========================================
+
 function getAnswers() {
 
     const answers = {};
@@ -42,7 +29,9 @@ function getAnswers() {
         );
 
         if (!selected) {
-            throw new Error(`No answer selected for: ${variable}`);
+            throw new Error(
+                `No answer selected for: ${variable}`
+            );
         }
 
         answers[variable] = Number(selected.value);
@@ -52,13 +41,11 @@ function getAnswers() {
 }
 
 
-// Calculate risk score
-function calculateRisk(answers) {
+// ==========================================
+// CALCULATE SELF-ASSESSMENT RISK
+// ==========================================
 
-    // Sleep:
-    // 1 = Very Good
-    // 5 = Very Poor
-    // Therefore higher value = higher risk
+function calculateRisk(answers) {
 
     const total =
         answers.workload +
@@ -70,14 +57,13 @@ function calculateRisk(answers) {
         answers.restlessness +
         answers.sleep_quality;
 
-    // 8 questions × maximum score 5 = 40
-    // Example:
-    // All 1s = 8/40 = 20%
-    // All 3s = 24/40 = 60%
-    // All 4s = 32/40 = 80%
-    // All 5s = 40/40 = 100%
 
-    const score = Math.round((total / 40) * 100);
+    // 8 questions × maximum 5 = 40
+
+    const score = Math.round(
+        (total / 40) * 100
+    );
+
 
     let level;
 
@@ -91,53 +77,291 @@ function calculateRisk(answers) {
         level = "HIGH";
     }
 
+
     return {
-        total: total,
-        score: score,
+        total,
+        score,
+        level
+    };
+}
+
+
+// ==========================================
+// FINAL COMBINED RISK
+// ==========================================
+
+function calculateFinalRisk(aiRisk, assessmentRisk) {
+
+    // Prototype weighting:
+    // AI prediction = 60%
+    // Self-assessment = 40%
+
+    const finalRisk = Math.round(
+        (aiRisk * 0.60) +
+        (assessmentRisk * 0.40)
+    );
+
+
+    let level;
+
+    if (finalRisk < 40) {
+        level = "LOW";
+    }
+    else if (finalRisk < 70) {
+        level = "MODERATE";
+    }
+    else {
+        level = "HIGH";
+    }
+
+
+    return {
+        score: finalRisk,
         level: level
     };
 }
 
 
-// Generate assessment summary
-function generateSummary(answers) {
+// ==========================================
+// DISPLAY AI INFORMATION
+// ==========================================
 
-    return questions.map(([question, variable], index) => {
+function displayAIInformation() {
 
-        return `${index + 1}. ${question}\nAnswer: ${answers[variable]}`;
+    const aiRisk =
+        localStorage.getItem("aegisAIRisk");
 
-    }).join("\n\n");
+    const aiLevel =
+        localStorage.getItem("aegisAIRiskLevel");
+
+    const aiTrend =
+        localStorage.getItem("aegisAITrend");
+
+    const aiFactors =
+        JSON.parse(
+            localStorage.getItem("aegisAIFactors") || "[]"
+        );
+
+    const aiRecommendation =
+        localStorage.getItem("aegisAIRecommendation");
+
+
+    const aiRiskElement =
+        document.getElementById("aiRisk");
+
+    const aiLevelElement =
+        document.getElementById("aiRiskLevel");
+
+    const aiTrendElement =
+        document.getElementById("aiTrend");
+
+    const aiFactorsElement =
+        document.getElementById("aiFactors");
+
+    const aiRecommendationElement =
+        document.getElementById("aiRecommendation");
+
+
+    if (aiRiskElement && aiRisk !== null) {
+        aiRiskElement.textContent =
+            aiRisk + "%";
+    }
+
+
+    if (aiLevelElement && aiLevel !== null) {
+        aiLevelElement.textContent =
+            aiLevel;
+    }
+
+
+    if (aiTrendElement && aiTrend !== null) {
+        aiTrendElement.textContent =
+            aiTrend.replaceAll("_", " ");
+    }
+
+
+    if (aiFactorsElement) {
+
+        aiFactorsElement.innerHTML = "";
+
+        aiFactors.forEach(factor => {
+
+            const li = document.createElement("li");
+
+            li.textContent = factor;
+
+            aiFactorsElement.appendChild(li);
+        });
+    }
+
+
+    if (
+        aiRecommendationElement &&
+        aiRecommendation
+    ) {
+        aiRecommendationElement.textContent =
+            aiRecommendation;
+    }
 }
 
 
-// Run assessment
+// ==========================================
+// ASSESS RISK
+// ==========================================
+
 function assessRisk() {
 
     try {
 
+        // Get questionnaire answers
         const answers = getAnswers();
-        const result = calculateRisk(answers);
 
-        // Update existing percentage
-        const percent = document.getElementById("stressScorePercent");
+
+        // Calculate self-assessment risk
+        const result =
+            calculateRisk(answers);
+
+
+        // Get AI risk from login
+        const aiRiskValue =
+            localStorage.getItem("aegisAIRisk");
+
+
+        if (aiRiskValue === null) {
+
+            alert(
+                "AI risk prediction is unavailable. Please log in again."
+            );
+
+            return;
+        }
+
+
+        const aiRisk =
+            Number(aiRiskValue);
+
+
+        // Combine AI + self assessment
+        const finalResult =
+            calculateFinalRisk(
+                aiRisk,
+                result.score
+            );
+
+
+        // ==========================================
+        // UPDATE SCORE DISPLAY
+        // ==========================================
+
+        const percent =
+            document.getElementById(
+                "stressScorePercent"
+            );
+
+        const rawScore =
+            document.getElementById(
+                "rawScore"
+            );
+
 
         if (percent) {
-            percent.textContent = result.score + "%";
+
+            percent.textContent =
+                finalResult.score + "%";
         }
 
-        // Update existing raw score
-        const rawScore = document.getElementById("rawScore");
 
         if (rawScore) {
-            rawScore.textContent = result.total;
+
+            rawScore.textContent =
+                result.total + " / 40";
         }
 
-        // Update existing summary
 
-        console.log("Assessment:", answers);
-        console.log("Score:", result.total + "/40");
-        console.log("Risk:", result.score + "%");
-        console.log("Level:", result.level);
+        // ==========================================
+        // OPTIONAL FINAL RISK ELEMENTS
+        // ==========================================
+
+        const finalRiskElement =
+            document.getElementById(
+                "finalRisk"
+            );
+
+        const finalLevelElement =
+            document.getElementById(
+                "finalRiskLevel"
+            );
+
+        const selfAssessmentElement =
+            document.getElementById(
+                "selfAssessmentRisk"
+            );
+
+
+        if (finalRiskElement) {
+
+            finalRiskElement.textContent =
+                finalResult.score + "%";
+        }
+
+
+        if (finalLevelElement) {
+
+            finalLevelElement.textContent =
+                finalResult.level;
+        }
+
+
+        if (selfAssessmentElement) {
+
+            selfAssessmentElement.textContent =
+                result.score + "%";
+        }
+
+
+        // ==========================================
+        // SAVE FINAL RESULT
+        // ==========================================
+
+        localStorage.setItem(
+            "aegisSelfAssessmentRisk",
+            result.score
+        );
+
+        localStorage.setItem(
+            "aegisFinalRisk",
+            finalResult.score
+        );
+
+        localStorage.setItem(
+            "aegisFinalRiskLevel",
+            finalResult.level
+        );
+
+
+        // ==========================================
+        // DEBUG / CONSOLE
+        // ==========================================
+
+        console.log(
+            "AI Risk:",
+            aiRisk + "%"
+        );
+
+        console.log(
+            "Self Assessment:",
+            result.score + "%"
+        );
+
+        console.log(
+            "Final Risk:",
+            finalResult.score + "%"
+        );
+
+        console.log(
+            "Final Level:",
+            finalResult.level
+        );
 
     }
 
@@ -152,75 +376,194 @@ function assessRisk() {
 }
 
 
-// Remove unnecessary developer/debug elements
-document.addEventListener("DOMContentLoaded", () => {
+// ==========================================
+// LOGOUT
+// ==========================================
 
-    document.querySelectorAll(".variable-badge").forEach(element => {
-        element.remove();
-    });
+function logout() {
 
-    document.querySelectorAll(".qa-format-display").forEach(element => {
-        element.remove();
-    });
+    localStorage.removeItem(
+        "aegisLoggedIn"
+    );
 
-});
+    localStorage.removeItem(
+        "aegisPersonnelId"
+    );
+
+    localStorage.removeItem(
+        "aegisUserName"
+    );
+
+    localStorage.removeItem(
+        "aegisRole"
+    );
+
+    localStorage.removeItem(
+        "aegisAIRisk"
+    );
+
+    localStorage.removeItem(
+        "aegisAIRiskLevel"
+    );
+
+    localStorage.removeItem(
+        "aegisAITrend"
+    );
+
+    localStorage.removeItem(
+        "aegisAIFactors"
+    );
+
+    localStorage.removeItem(
+        "aegisAIRecommendation"
+    );
+
+    localStorage.removeItem(
+        "aegisSelfAssessmentRisk"
+    );
+
+    localStorage.removeItem(
+        "aegisFinalRisk"
+    );
+
+    localStorage.removeItem(
+        "aegisFinalRiskLevel"
+    );
 
 
-// Copy assessment summary
-document.addEventListener("DOMContentLoaded", () => {
+    window.location.href =
+        "index.html";
+}
 
-    const copyButton = document.getElementById("copySummaryBtn");
 
-    if (!copyButton) {
-        return;
-    }
+// ==========================================
+// PAGE INITIALIZATION
+// ==========================================
 
-    copyButton.addEventListener("click", async () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-        const summary = document.getElementById(
-            "formattedSummaryOutput"
-        );
+        // Remove developer-facing elements
+        document
+            .querySelectorAll(".variable-badge")
+            .forEach(element => {
+                element.remove();
+            });
 
-        if (!summary || !summary.textContent.trim()) {
 
-            alert("Please run the assessment first.");
+        document
+            .querySelectorAll(".qa-format-display")
+            .forEach(element => {
+                element.remove();
+            });
 
-            return;
-        }
 
-        try {
+        // Display AI information
+        displayAIInformation();
 
-            await navigator.clipboard.writeText(
-                summary.textContent
+
+        // Logout button
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
             );
 
-            const toast = document.getElementById("toast");
-            const toastMsg = document.getElementById("toastMsg");
+        if (logoutBtn) {
 
-            if (toastMsg) {
-                toastMsg.textContent =
-                    "Assessment summary copied to clipboard!";
-            }
-
-            if (toast) {
-
-                toast.classList.add("show");
-
-                setTimeout(() => {
-                    toast.classList.remove("show");
-                }, 2500);
-
-            }
-
+            logoutBtn.addEventListener(
+                "click",
+                logout
+            );
         }
 
-        catch (error) {
 
-            console.error("Clipboard error:", error);
+        // Copy button, if it still exists
+        const copyButton =
+            document.getElementById(
+                "copySummaryBtn"
+            );
 
-            alert("Unable to copy the summary.");
+        if (copyButton) {
+
+            copyButton.addEventListener(
+                "click",
+                async () => {
+
+                    const summary =
+                        document.getElementById(
+                            "formattedSummaryOutput"
+                        );
+
+                    if (
+                        !summary ||
+                        !summary.textContent.trim()
+                    ) {
+
+                        alert(
+                            "Please run the assessment first."
+                        );
+
+                        return;
+                    }
+
+
+                    try {
+
+                        await navigator.clipboard.writeText(
+                            summary.textContent
+                        );
+
+
+                        const toast =
+                            document.getElementById(
+                                "toast"
+                            );
+
+                        const toastMsg =
+                            document.getElementById(
+                                "toastMsg"
+                            );
+
+
+                        if (toastMsg) {
+
+                            toastMsg.textContent =
+                                "Assessment summary copied to clipboard!";
+                        }
+
+
+                        if (toast) {
+
+                            toast.classList.add(
+                                "show"
+                            );
+
+                            setTimeout(
+                                () => {
+                                    toast.classList.remove(
+                                        "show"
+                                    );
+                                },
+                                2500
+                            );
+                        }
+
+                    }
+
+                    catch (error) {
+
+                        console.error(
+                            "Clipboard error:",
+                            error
+                        );
+
+                        alert(
+                            "Unable to copy the summary."
+                        );
+                    }
+                }
+            );
         }
-
-    });
-
-});
+    }
+);
