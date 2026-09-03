@@ -750,35 +750,37 @@ label:focus-within {
    RESULTS HIDDEN UNTIL ASSESSMENT
    ========================================================= */
 
-/* AI result completely hidden initially */
+/* AI result is hidden when the assessment page first opens */
 .ai-risk-panel {
     display: none;
 }
 
+/* AI result becomes visible after Assess Risk */
 .ai-risk-panel.show {
     display: block;
 }
 
-/* Keep the final panel and Assess Risk button visible */
+
+/* Final panel is ALWAYS visible because it contains
+   the Assess Risk button */
 .final-risk-panel {
     display: block;
 }
 
-/* Hide the actual result rows initially */
-.final-risk-panel > div {
+
+/* Hide result rows before assessment */
+.final-risk-panel .risk-result {
     display: none;
 }
 
-/* Keep the Assess Risk button visible */
-.final-risk-panel button {
-    display: block;
-}
 
 /* Show result rows after assessment */
-.final-risk-panel.show > div {
+.final-risk-panel.show .risk-result {
     display: flex;
 }
-.ai-risk-panel.show,
-.final-risk-panel.show {
+
+
+/* Assess Risk button is always visible */
+.final-risk-panel button {
     display: block;
 }
