@@ -57,13 +57,10 @@ function calculateRisk(answers) {
         answers.restlessness +
         answers.sleep_quality;
 
-
     // 8 questions × maximum 5 = 40
-
     const score = Math.round(
         (total / 40) * 100
     );
-
 
     let level;
 
@@ -76,7 +73,6 @@ function calculateRisk(answers) {
     else {
         level = "HIGH";
     }
-
 
     return {
         total,
@@ -101,7 +97,6 @@ function calculateFinalRisk(aiRisk, assessmentRisk) {
         (assessmentRisk * 0.40)
     );
 
-
     let level;
 
     if (finalRisk < 40) {
@@ -113,7 +108,6 @@ function calculateFinalRisk(aiRisk, assessmentRisk) {
     else {
         level = "HIGH";
     }
-
 
     return {
         score: finalRisk,
@@ -137,10 +131,16 @@ function displayAIInformation() {
     const aiTrend =
         localStorage.getItem("aegisAITrend");
 
-    const aiFactors =
-        JSON.parse(
+    let aiFactors = [];
+
+    try {
+        aiFactors = JSON.parse(
             localStorage.getItem("aegisAIFactors") || "[]"
         );
+    }
+    catch (error) {
+        console.error("AI factors parsing error:", error);
+    }
 
     const aiRecommendation =
         localStorage.getItem("aegisAIRecommendation");
@@ -279,8 +279,13 @@ function assessRisk() {
 
 
         // ==========================================
-        // OPTIONAL FINAL RISK ELEMENTS
+        // UPDATE FINAL RISK ELEMENTS
         // ==========================================
+
+        const aiRiskFinalElement =
+            document.getElementById(
+                "aiRiskFinal"
+            );
 
         const finalRiskElement =
             document.getElementById(
@@ -296,6 +301,13 @@ function assessRisk() {
             document.getElementById(
                 "selfAssessmentRisk"
             );
+
+
+        if (aiRiskFinalElement) {
+
+            aiRiskFinalElement.textContent =
+                aiRisk + "%";
+        }
 
 
         if (finalRiskElement) {
@@ -337,29 +349,33 @@ function assessRisk() {
             "aegisFinalRiskLevel",
             finalResult.level
         );
-        // ==========================================
-// SHOW RESULTS
-// ==========================================
 
-// Fill AI panel with backend data
-displayAIInformation();
-
-// Show AI panel
-const aiPanel = document.querySelector(".ai-risk-panel");
-
-if (aiPanel) {
-    aiPanel.classList.add("show");
-}
-
-// Show final result panel
-const finalPanel = document.querySelector(".final-risk-panel");
-
-if (finalPanel) {
-    finalPanel.classList.add("show");
-}
 
         // ==========================================
-        // DEBUG / CONSOLE
+        // SHOW AI + FINAL RESULTS
+        // ==========================================
+
+        displayAIInformation();
+
+
+        const aiPanel =
+            document.querySelector(".ai-risk-panel");
+
+        if (aiPanel) {
+            aiPanel.classList.add("show");
+        }
+
+
+        const finalPanel =
+            document.querySelector(".final-risk-panel");
+
+        if (finalPanel) {
+            finalPanel.classList.add("show");
+        }
+
+
+        // ==========================================
+        // DEBUG
         // ==========================================
 
         console.log(
@@ -396,62 +412,59 @@ if (finalPanel) {
 
 
 // ==========================================
+// DISPLAY USER INFORMATION
+// ==========================================
+
+function displayUserInformation() {
+
+    const userName =
+        localStorage.getItem("aegisUserName");
+
+    const personnelId =
+        localStorage.getItem("aegisPersonnelId");
+
+    const nameElement =
+        document.getElementById("personnelName");
+
+    const idElement =
+        document.getElementById("personnelIdDisplay");
+
+
+    if (nameElement && userName) {
+        nameElement.textContent =
+            userName;
+    }
+
+
+    if (idElement && personnelId) {
+        idElement.textContent =
+            personnelId;
+    }
+}
+
+
+// ==========================================
 // LOGOUT
 // ==========================================
 
 function logout() {
 
-    localStorage.removeItem(
-        "aegisLoggedIn"
-    );
+    localStorage.removeItem("aegisLoggedIn");
+    localStorage.removeItem("aegisPersonnelId");
+    localStorage.removeItem("aegisUserName");
+    localStorage.removeItem("aegisRole");
 
-    localStorage.removeItem(
-        "aegisPersonnelId"
-    );
+    localStorage.removeItem("aegisAIRisk");
+    localStorage.removeItem("aegisAIRiskLevel");
+    localStorage.removeItem("aegisAITrend");
+    localStorage.removeItem("aegisAIFactors");
+    localStorage.removeItem("aegisAIRecommendation");
 
-    localStorage.removeItem(
-        "aegisUserName"
-    );
+    localStorage.removeItem("aegisSelfAssessmentRisk");
+    localStorage.removeItem("aegisFinalRisk");
+    localStorage.removeItem("aegisFinalRiskLevel");
 
-    localStorage.removeItem(
-        "aegisRole"
-    );
-
-    localStorage.removeItem(
-        "aegisAIRisk"
-    );
-
-    localStorage.removeItem(
-        "aegisAIRiskLevel"
-    );
-
-    localStorage.removeItem(
-        "aegisAITrend"
-    );
-
-    localStorage.removeItem(
-        "aegisAIFactors"
-    );
-
-    localStorage.removeItem(
-        "aegisAIRecommendation"
-    );
-
-    localStorage.removeItem(
-        "aegisSelfAssessmentRisk"
-    );
-
-    localStorage.removeItem(
-        "aegisFinalRisk"
-    );
-
-    localStorage.removeItem(
-        "aegisFinalRiskLevel"
-    );
-
-
-    window.location.href =
-        "index.html";
+    window.location.replace("index.html");
 }
 
 
@@ -478,8 +491,13 @@ document.addEventListener(
             });
 
 
-        // Display AI information
-        
+        // Display personnel information
+        displayUserInformation();
+
+
+        // IMPORTANT:
+        // Do NOT call displayAIInformation() here.
+        // AI results should only appear after Assess Risk.
 
 
         // Logout button
@@ -497,7 +515,7 @@ document.addEventListener(
         }
 
 
-        // Copy button, if it still exists
+        // Copy button
         const copyButton =
             document.getElementById(
                 "copySummaryBtn"
