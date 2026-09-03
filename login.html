@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AEGIS | Personnel Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top left, #171744 0%, transparent 40%),
+                linear-gradient(135deg, #080d1c, #0b1424);
+            color: #d9deeb;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        /* Header */
+
+        .brand {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .sih-badge {
+            display: inline-block;
+            background: #ff6b0b;
+            color: white;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            padding: 7px 14px;
+            border-radius: 20px;
+
+            margin-bottom: 14px;
+
+            box-shadow: 0 0 15px rgba(255, 107, 11, 0.25);
+        }
+
+        .brand h1 {
+            font-size: 32px;
+            letter-spacing: 1px;
+            color: #f0f2fa;
+            margin-bottom: 7px;
+        }
+
+        .brand p {
+            color: #8e99ae;
+            font-size: 14px;
+        }
+
+        /* Login card */
+
+        .login-card {
+            background: rgba(15, 23, 42, 0.92);
+
+            border: 1px solid #4147a8;
+            border-radius: 18px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 0 35px rgba(65, 71, 168, 0.12),
+                0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .login-title h2 {
+            color: #e3e7f2;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .login-title p {
+            color: #8994aa;
+            font-size: 13px;
+        }
+
+        /* Form */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+
+            color: #c7cede;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+
+            background: #080e1d;
+            border: 1px solid #303950;
+            border-radius: 10px;
+
+            padding: 13px 14px;
+
+            color: #e5e9f2;
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #5b5ce2;
+            box-shadow: 0 0 0 3px rgba(91, 92, 226, 0.12);
+        }
+
+        input::placeholder {
+            color: #596378;
+        }
+
+        /* Button */
+
+        .login-btn {
+            width: 100%;
+
+            margin-top: 5px;
+
+            padding: 13px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: linear-gradient(135deg, #5b5ce2, #6b4fe8);
+
+            color: white;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow: 0 0 20px rgba(91, 92, 226, 0.25);
+
+            transition: 0.2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 25px rgba(91, 92, 226, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Error */
+
+        .error-message {
+            display: none;
+
+            margin-top: 15px;
+            padding: 11px;
+
+            border-radius: 8px;
+
+            background: rgba(220, 60, 70, 0.12);
+            border: 1px solid rgba(220, 60, 70, 0.35);
+
+            color: #ff9a9a;
+
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Demo information */
+
+        .demo-info {
+            margin-top: 22px;
+            padding-top: 18px;
+
+            border-top: 1px solid #252d40;
+
+            text-align: center;
+
+            color: #68748a;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .demo-info strong {
+            color: #8994aa;
+        }
+
+        /* Back */
+
+        .back-link {
+            display: block;
+
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: #8994aa;
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: 0.2s;
+        }
+
+        .back-link:hover {
+            color: #b5b8ff;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 500px) {
+            .login-card {
+                padding: 27px 22px;
+            }
+
+            .brand h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- Brand -->
+        <div class="brand">
+            <div class="sih-badge">SIH 2026</div>
+
+            <h1>AEGIS</h1>
+
+            <p>
+                Personnel Stress & Welfare Monitoring System
+            </p>
+        </div>
+
+
+        <!-- Login Card -->
+        <div class="login-card">
+
+            <div class="login-title">
+                <h2>Personnel Login</h2>
+
+                <p>
+                    Sign in to access your AEGIS assessment
+                </p>
+            </div>
+
+
+            <form id="loginForm">
+
+                <!-- Personnel ID -->
+                <div class="form-group">
+                    <label for="personnelId">
+                        Personnel ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="personnelId"
+                        placeholder="Enter your Personnel ID"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+
+                <!-- Login Button -->
+                <button
+                    type="submit"
+                    class="login-btn"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <!-- Error -->
+            <div
+                id="errorMessage"
+                class="error-message"
+            >
+                Invalid Personnel ID or password.
+            </div>
+
+
+            <!-- Demo info -->
+            <div class="demo-info">
+                <strong>Prototype Login</strong><br>
+                Credentials are used for demonstration purposes only.
+            </div>
+
+        </div>
+
+
+        <!-- Back -->
+        <a href="index.html" class="back-link">
+            ← Back to Front Page
+        </a>
+
+    </div>
+
+
+    <!-- Login Script -->
+    <script src="login.js?v=1"></script>
+
+</body>
+</html>
