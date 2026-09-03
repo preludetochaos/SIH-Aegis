@@ -337,6 +337,8 @@ function assessRisk() {
             "aegisFinalRiskLevel",
             finalResult.level
         );
+        document.querySelector(".ai-risk-panel").classList.add("show");
+document.querySelector(".final-risk-panel").classList.add("show");
 
 
         // ==========================================
