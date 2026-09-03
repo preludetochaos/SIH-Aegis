@@ -1,0 +1,781 @@
+/* =========================================================
+   AEGIS - Welfare Assessment
+   SIH 2026
+   ========================================================= */
+
+/* ---------- ROOT ---------- */
+
+:root {
+    --bg: #080d1a;
+    --bg-secondary: #0f172a;
+    --card: rgba(15, 23, 42, 0.78);
+    --card-hover: rgba(22, 33, 58, 0.92);
+
+    --primary: #4f46e5;
+    --primary-light: #818cf8;
+    --accent: #06b6d4;
+
+    --green: #10b981;
+    --cyan: #06b6d4;
+    --yellow: #f59e0b;
+    --orange: #f97316;
+    --red: #ef4444;
+
+    --text: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+
+    --border: rgba(255, 255, 255, 0.08);
+    --border-focus: rgba(99, 102, 241, 0.55);
+
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+
+    --shadow:
+        0 10px 30px -10px rgba(0, 0, 0, 0.6),
+        0 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+
+/* ---------- RESET ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
+
+    color: var(--text-secondary);
+    background:
+        radial-gradient(
+            ellipse at 15% 10%,
+            rgba(79, 70, 229, 0.20),
+            transparent 48%
+        ),
+        radial-gradient(
+            ellipse at 85% 90%,
+            rgba(6, 182, 212, 0.15),
+            transparent 48%
+        ),
+        linear-gradient(135deg, #080d1a, #0b1120 55%, #080d1a);
+
+    background-attachment: fixed;
+    line-height: 1.6;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* ---------- USER HEADER ---------- */
+
+.user-info {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    min-height: 68px;
+    padding: 14px 6%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    background: rgba(8, 13, 26, 0.88);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid var(--border);
+
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+}
+
+.user-info > div {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.user-info > div > strong {
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.user-info span {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+}
+
+.user-info span strong {
+    color: var(--text);
+    font-weight: 700;
+}
+
+#logoutBtn {
+    border: 1px solid rgba(239, 68, 68, 0.35);
+
+    background: rgba(239, 68, 68, 0.08);
+    color: #fca5a5;
+
+    padding: 8px 17px;
+    border-radius: 10px;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#logoutBtn:hover {
+    background: rgba(239, 68, 68, 0.18);
+    border-color: rgba(239, 68, 68, 0.6);
+    transform: translateY(-1px);
+}
+
+
+/* ---------- MAIN ---------- */
+
+main {
+    width: min(100% - 40px, 1050px);
+    margin: 0 auto;
+    padding: 42px 0 70px;
+}
+
+
+/* ---------- AI RISK PANEL ---------- */
+
+.ai-risk-panel {
+    position: relative;
+    overflow: hidden;
+
+    background: var(--card);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+
+    padding: 30px;
+
+    margin-bottom: 30px;
+
+    box-shadow: var(--shadow);
+}
+
+.ai-risk-panel::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--accent)
+    );
+}
+
+.ai-risk-panel h2 {
+    color: white;
+    font-size: 1.55rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+}
+
+
+/* ---------- AI STATS ---------- */
+
+.ai-risk-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.ai-risk-info > div {
+    padding: 18px 20px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    transition: 0.2s ease;
+}
+
+.ai-risk-info > div:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--border-focus);
+    transform: translateY(-2px);
+}
+
+.ai-risk-info span {
+    display: block;
+
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    margin-bottom: 5px;
+}
+
+.ai-risk-info strong {
+    display: block;
+
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+
+/* ---------- AI FACTORS + RECOMMENDATION ---------- */
+
+.ai-factors,
+.ai-recommendation {
+    padding: 20px;
+
+    background: rgba(8, 13, 26, 0.55);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    margin-top: 14px;
+}
+
+.ai-factors h3,
+.ai-recommendation h3 {
+    color: white;
+    font-size: 1rem;
+    font-weight: 750;
+    margin-bottom: 10px;
+}
+
+.ai-factors ul {
+    padding-left: 20px;
+    color: var(--text-secondary);
+}
+
+.ai-factors li {
+    margin: 5px 0;
+}
+
+.ai-recommendation p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+
+/* ---------- ASSESSMENT SECTION ---------- */
+
+.assessment-section {
+    margin-top: 35px;
+}
+
+.assessment-section > h1 {
+    color: white;
+
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    font-weight: 800;
+
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+
+    margin-bottom: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #ffffff 35%,
+        #cbd5e1 75%,
+        #a5b4fc
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.assessment-section > p {
+    color: var(--text-muted);
+    margin-bottom: 25px;
+}
+
+
+/* ---------- QUESTION CARDS ---------- */
+
+.question {
+    position: relative;
+    overflow: hidden;
+
+    background: var(--card);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+
+    padding: 25px 28px;
+    margin-bottom: 18px;
+
+    box-shadow: var(--shadow);
+
+    transition: 0.25s ease;
+}
+
+.question::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 4px;
+    height: 100%;
+
+    background: linear-gradient(
+        180deg,
+        var(--primary),
+        var(--accent)
+    );
+
+    opacity: 0.5;
+}
+
+.question:hover {
+    transform: translateY(-2px);
+
+    background: var(--card-hover);
+
+    border-color: var(--border-focus);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.45),
+        0 0 20px rgba(79, 70, 229, 0.10);
+}
+
+.question h3 {
+    color: var(--text);
+
+    font-size: 1.05rem;
+    font-weight: 700;
+
+    line-height: 1.5;
+
+    margin-bottom: 18px;
+}
+
+
+/* ---------- RADIO OPTIONS ---------- */
+
+.question label {
+    display: inline-flex;
+
+    align-items: center;
+    gap: 8px;
+
+    min-width: 115px;
+
+    padding: 11px 14px;
+    margin: 4px 6px 4px 0;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    color: var(--text-secondary);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.18s ease;
+}
+
+.question label:hover {
+    background: rgba(79, 70, 229, 0.12);
+    border-color: rgba(99, 102, 241, 0.45);
+
+    color: white;
+
+    transform: translateY(-1px);
+}
+
+
+/* Radio itself */
+
+.question input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 17px;
+    height: 17px;
+
+    border-radius: 50%;
+
+    border: 2px solid #64748b;
+
+    background: transparent;
+
+    position: relative;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
+.question input[type="radio"]:checked {
+    border-color: var(--primary-light);
+
+    background: var(--primary);
+}
+
+.question input[type="radio"]:checked::after {
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+
+/* Highlight selected label */
+
+.question label:has(input[type="radio"]:checked) {
+    background: linear-gradient(
+        135deg,
+        rgba(79, 70, 229, 0.28),
+        rgba(6, 182, 212, 0.12)
+    );
+
+    border-color: rgba(129, 140, 248, 0.6);
+
+    color: white;
+
+    box-shadow:
+        0 5px 18px rgba(79, 70, 229, 0.18);
+}
+
+
+/* ---------- FINAL RISK PANEL ---------- */
+
+.final-risk-panel {
+    position: relative;
+    overflow: hidden;
+
+    margin-top: 35px;
+
+    background: var(--card);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(99, 102, 241, 0.45);
+    border-radius: var(--radius-xl);
+
+    padding: 30px;
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.55),
+        0 0 25px rgba(79, 70, 229, 0.12);
+}
+
+.final-risk-panel::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: linear-gradient(
+        90deg,
+        var(--accent),
+        var(--primary)
+    );
+}
+
+.final-risk-panel h2 {
+    color: white;
+
+    font-size: 1.5rem;
+    font-weight: 800;
+
+    margin-bottom: 22px;
+}
+
+.final-risk-panel > div {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 13px 16px;
+    margin: 7px 0;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    color: var(--text-secondary);
+}
+
+.final-risk-panel > div strong {
+    color: white;
+
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+
+/* ---------- ASSESS BUTTON ---------- */
+
+.final-risk-panel button {
+    display: block;
+
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 14px 24px;
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 11px;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        #6366f1
+    );
+
+    color: white;
+
+    font-size: 0.98rem;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 22px rgba(79, 70, 229, 0.4);
+
+    transition: 0.25s ease;
+}
+
+.final-risk-panel button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 11px 30px rgba(79, 70, 229, 0.55);
+
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.final-risk-panel button:active {
+    transform: translateY(0);
+}
+
+
+/* ---------- RISK LEVEL COLORS ---------- */
+
+#aiRiskLevel,
+#finalRiskLevel {
+    color: var(--yellow);
+}
+
+#aiRisk {
+    color: var(--primary-light);
+}
+
+#aiTrend {
+    color: var(--cyan);
+}
+
+#finalRisk {
+    color: var(--primary-light);
+}
+
+#selfAssessmentRisk {
+    color: var(--accent);
+}
+
+#rawScore {
+    color: var(--text);
+}
+
+
+/* ---------- SELECTION / FOCUS ---------- */
+
+button:focus-visible,
+label:focus-within {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 2px;
+}
+
+
+/* ---------- SCROLLBAR ---------- */
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #080d1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 800px) {
+
+    main {
+        width: min(100% - 24px, 650px);
+        padding-top: 25px;
+    }
+
+    .user-info {
+        padding: 12px 16px;
+        align-items: flex-start;
+    }
+
+    .user-info > div {
+        gap: 8px 15px;
+    }
+
+    .user-info > div > strong {
+        width: 100%;
+    }
+
+    .ai-risk-info {
+        grid-template-columns: 1fr;
+    }
+
+    .question {
+        padding: 21px;
+    }
+
+    .question label {
+        min-width: calc(50% - 8px);
+        margin-right: 4px;
+    }
+
+    .final-risk-panel {
+        padding: 22px;
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    .user-info {
+        position: relative;
+        flex-direction: column;
+    }
+
+    #logoutBtn {
+        width: 100%;
+    }
+
+    .assessment-section > h1 {
+        font-size: 2rem;
+    }
+
+    .ai-risk-panel,
+    .final-risk-panel {
+        padding: 20px;
+    }
+
+    .question label {
+        width: 100%;
+        min-width: 0;
+        margin-right: 0;
+    }
+
+    .final-risk-panel > div {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+}
+
+/* =========================================================
+   RESULTS VISIBILITY
+   ========================================================= */
+
+/* Backend AI result stays hidden until Assess Risk */
+.ai-risk-panel {
+    display: none;
+}
+
+.ai-risk-panel.show {
+    display: block;
+}
+
+/* Keep this panel visible because it contains the button */
+.final-risk-panel {
+    display: block;
+}
+
+/* Hide only the result rows before assessment */
+.final-risk-panel .risk-result {
+    display: none;
+}
+
+/* Reveal result rows after assessment */
+.final-risk-panel.show .risk-result {
+    display: flex;
+}
+
+/* Assess Risk button is always visible */
+.final-risk-panel button {
+    display: block;
+}
