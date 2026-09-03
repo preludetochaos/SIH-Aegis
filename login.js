@@ -1,14 +1,8 @@
-// ==========================================
-// AEGIS - Personnel Login
-// ------------------------------------------
-// Convert CSV text into user objects
-// ------------------------------------------
+const loginForm = document.getElementById("loginForm");
+const errorMessage = document.getElementById("errorMessage");
 
 function parseCSV(csvText) {
-
-    const lines = csvText
-        .trim()
-        .split("\n");
+    const lines = csvText.trim().split("\n");
 
     const headers = lines[0]
         .split(",")
@@ -17,7 +11,6 @@ function parseCSV(csvText) {
     const users = [];
 
     for (let i = 1; i < lines.length; i++) {
-
         const values = lines[i]
             .split(",")
             .map(value => value.trim());
@@ -35,16 +28,11 @@ function parseCSV(csvText) {
 }
 
 
-// ------------------------------------------
-// Login
-// ------------------------------------------
-
-loginForm.addEventListener("submit", async function(event) {
+loginForm.addEventListener("submit", async function (event) {
 
     event.preventDefault();
 
     errorMessage.classList.remove("show");
-
 
     const personnelId =
         document.getElementById("personnelId").value.trim();
@@ -55,20 +43,20 @@ loginForm.addEventListener("submit", async function(event) {
 
     try {
 
-        // Load CSV
-        const response = await fetch("users.csv");
+        // ==========================================
+        // STEP 1 — Validate login credentials
+        // ==========================================
 
-        if (!response.ok) {
+        const csvResponse = await fetch("users.csv");
+
+        if (!csvResponse.ok) {
             throw new Error("Unable to load users.csv");
         }
 
-        const csvText = await response.text();
+        const csvText = await csvResponse.text();
 
-        // Convert CSV to objects
         const users = parseCSV(csvText);
 
-
-        // Find matching user
         const user = users.find(
             person =>
                 person.personnel_id === personnelId &&
@@ -76,7 +64,6 @@ loginForm.addEventListener("submit", async function(event) {
         );
 
 
-        // Invalid login
         if (!user) {
 
             errorMessage.textContent =
@@ -88,9 +75,39 @@ loginForm.addEventListener("submit", async function(event) {
         }
 
 
-        // ----------------------------------
-        // Successful login
-        // ----------------------------------
+        // ==========================================
+        // STEP 2 — Ask AI backend for prediction
+        // ==========================================
+
+        const aiResponse = await fetch(
+            "https://sih-aegis.onrender.com/predict-by-personnel-id",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    personnel_id: personnelId
+                })
+            }
+        );
+
+
+        if (!aiResponse.ok) {
+            throw new Error("AI prediction request failed.");
+        }
+
+
+        const aiData = await aiResponse.json();
+
+        console.log("AI Prediction:", aiData);
+
+
+        // ==========================================
+        // STEP 3 — Store login + AI information
+        // ==========================================
 
         localStorage.setItem(
             "aegisLoggedIn",
@@ -113,19 +130,59 @@ loginForm.addEventListener("submit", async function(event) {
         );
 
 
-        console.log("Login successful:", user);
+        // Store AI prediction
+
+        localStorage.setItem(
+            "aegisAIRisk",
+            aiData.risk_score
+        );
+
+        localStorage.setItem(
+            "aegisAIRiskLevel",
+            aiData.risk_level
+        );
+
+        localStorage.setItem(
+            "aegisAITrend",
+            aiData.trend
+        );
+
+        localStorage.setItem(
+            "aegisAIFactors",
+            JSON.stringify(aiData.contributing_factors)
+        );
+
+        localStorage.setItem(
+            "aegisAIRecommendation",
+            aiData.recommendation
+        );
 
 
-        // Go to assessment page
+        console.log(
+            "Login successful:",
+            user
+        );
+
+        console.log(
+            "AI Risk:",
+            aiData.risk_score
+        );
+
+
+        // ==========================================
+        // STEP 4 — Open assessment
+        // ==========================================
+
         window.location.href = "assesment.html";
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.error("Login error:", error);
 
         errorMessage.textContent =
-            "Unable to connect to the login system.";
+            "Unable to retrieve AI risk assessment. Please try again.";
 
         errorMessage.classList.add("show");
     }
