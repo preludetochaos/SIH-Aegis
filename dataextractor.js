@@ -337,10 +337,26 @@ function assessRisk() {
             "aegisFinalRiskLevel",
             finalResult.level
         );
-        displayAIInformation();
-        document.querySelector(".ai-risk-panel").classList.add("show");
-document.querySelector(".final-risk-panel").classList.add("show");
+        // ==========================================
+// SHOW RESULTS
+// ==========================================
 
+// Fill AI panel with backend data
+displayAIInformation();
+
+// Show AI panel
+const aiPanel = document.querySelector(".ai-risk-panel");
+
+if (aiPanel) {
+    aiPanel.classList.add("show");
+}
+
+// Show final result panel
+const finalPanel = document.querySelector(".final-risk-panel");
+
+if (finalPanel) {
+    finalPanel.classList.add("show");
+}
 
         // ==========================================
         // DEBUG / CONSOLE
