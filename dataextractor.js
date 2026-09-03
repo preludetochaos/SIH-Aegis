@@ -117,11 +117,6 @@ function assessRisk() {
         }
 
         // Update existing summary
-        const summary = document.getElementById("formattedSummaryOutput");
-
-        if (summary) {
-            summary.textContent = generateSummary(answers);
-        }
 
         console.log("Assessment:", answers);
         console.log("Score:", result.total + "/40");
