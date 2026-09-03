@@ -123,7 +123,7 @@ loginForm.addEventListener("submit", async function(event) {
 
 
         // Go to assessment page
-        window.location.href = "assessment.html";
+        window.location.href = "assesment.html";
 
 
     } catch (error) {
