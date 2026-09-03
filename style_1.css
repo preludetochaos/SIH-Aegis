@@ -746,3 +746,13 @@ label:focus-within {
         gap: 4px;
     }
 }
+/* Hide results until assessment is submitted */
+.ai-risk-panel,
+.final-risk-panel {
+    display: none;
+}
+
+.ai-risk-panel.show,
+.final-risk-panel.show {
+    display: block;
+}
