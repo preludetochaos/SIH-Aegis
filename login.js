@@ -233,7 +233,7 @@ loginForm.addEventListener(
 
 
             errorMessage.textContent =
-                "Unable to retrieve AI risk assessment. Please try again.";
+                "This prototype is dead circa 4/9/26, what brings you here? Go ahead.. look around and leave";
 
 
             errorMessage.classList.add(
